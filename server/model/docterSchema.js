@@ -37,6 +37,7 @@ const DocterSchema = mongoose.Schema({
   },
   profilePic: {
     type: String,
+    default:"https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=360&t=st=1694166086~exp=1694166686~hmac=df857f22d4d44959529c9b23e4a06142bf0c708c136051632b7f517cbc7d7d13",
   },
   isVerified: {
     type: Boolean,
@@ -54,6 +55,13 @@ const DocterSchema = mongoose.Schema({
     type: Boolean,
     default:false
   },
+
+  appointments:[
+    {
+      date:{type:Date,required:true},
+      times:[{type:String,required:true}]
+    }
+  ]
   
 });
 const Doctor = mongoose.model("Doctor", DocterSchema);

@@ -38,7 +38,7 @@ function UserBody() {
              <a>
             <img
               className="rounded-t-lg"
-              src="https://img.freepik.com/premium-psd/doctor-with-his-arms-crossed-white-background_1368-22255.jpg?w=360"
+              src={doc.profilePic}
               alt=""
             />
           </a>

@@ -4,6 +4,7 @@ import { Get_DocDetails } from '../../../utils/ConstUrls';
 import { doctorInstance } from '../../../utils/axios';
 import jwtDecode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import SpinnerLoader from '../../../components/spinner/SpinnerLoader'
 
 function DoctorProfile() {
   const [DoctorDetails, setDoctorDetails] = useState({});
@@ -40,7 +41,7 @@ function DoctorProfile() {
           <div className="md:col-span-1">
             <img
               className="rounded-full w-48 h-48 object-cover object-center mx-auto"
-              src="https://img.freepik.com/free-photo/doctor-work_144627-40498.jpg?w=360&t=st=1693907865~exp=1693908465~hmac=e648fa4650db18e2b81c7f8f268e0a5533850790c2b69119142d91d70993907f"
+              src={DoctorDetails.profilePic}
               alt="Doctor's Photo"
             />
           </div>

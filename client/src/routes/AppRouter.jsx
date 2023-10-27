@@ -11,6 +11,9 @@ import ProfileCard from '../pages/users/profile/userProfile'
 import EditUserProfile from '../pages/users/profile/editProfile'
 import Email from '../pages/users/email-verification/email'
 import ViewDoctor from '../pages/users/doctorDetails/ViewDoctor'
+import ForgetpasswordPageEmailSection from '../pages/users/login/forgetpasswordPageEmailSection'
+import ForgetPaswordVerifiying from '../pages/users/login/forgetPaswordVerifiying'
+import ForgetPassword from '../pages/users/login/ForgetPassword'
 //============== doctors-pages==========================
 import DoctorLogin from '../pages/Doctor/DoctorLogin'
 import DoctorRegistration from '../pages/Doctor/doctorRegister'
@@ -54,13 +57,13 @@ const AppRouter = createBrowserRouter([
                 element: <ProfileCard />
             },
             {
-                path:'/editprofile',
+                path: '/editprofile',
                 element: <EditUserProfile />
 
             },
             {
-                path:'/viewDoc/:doctorId',
-                element:<ViewDoctor/>
+                path: '/viewDoc/:doctorId',
+                element: <ViewDoctor />
             }
         ]
     },
@@ -71,22 +74,34 @@ const AppRouter = createBrowserRouter([
                 <UserLogin />
             </AuthUser>
         ]
+       
+    },
+    {
+        path:'/forgetPasswordMailSection',
+        element:<ForgetpasswordPageEmailSection/>
     },
     {
         path: '/user-register',
         element: <UserRegister />
     },
-    {   
-        path:'/verify-email/:verificationToken',
-        element:<Email/>
+    {
+        path: '/verify-email/:verificationToken',
+        element: <Email />
 
     },
     {
-        path:'/error',
-        element:<ServerErrorPage/>
+        path:'/Verify-ResetPassord/:verificationToken',
+        element:<ForgetPaswordVerifiying/>
     },
+    {
+        path:'/ResetPasword/:id',
+        element:<ForgetPassword/>
 
-
+    },
+    {
+        path: '/error',
+        element: <ServerErrorPage />
+    },
     // ===========doctor-routes=====================
     {
         path: '/doctor',
@@ -95,17 +110,17 @@ const AppRouter = createBrowserRouter([
             {
                 path: '/doctor',
                 element: [
-                 <AuthorizeDoctor>
-                <DoctorProfile />
-                </AuthorizeDoctor>
-            ] 
+                    <AuthorizeDoctor>
+                        <DoctorProfile />
+                    </AuthorizeDoctor>
+                ]
             },
             {
                 path: "/doctor/edit-profile/:doctorId",
                 element: [
-                <AuthorizeDoctor>
-                    <EditDocProfile/>
-                </AuthorizeDoctor>]
+                    <AuthorizeDoctor>
+                        <EditDocProfile />
+                    </AuthorizeDoctor>]
             }
 
         ]
@@ -114,15 +129,15 @@ const AppRouter = createBrowserRouter([
         path: '/doctor-login',
         element: [
             <DoctorAuth>
-        <DoctorLogin />
+                <DoctorLogin />
             </DoctorAuth>
-    ]
+        ]
     },
     {
         path: '/doctor-register',
         element: <DoctorRegistration />
     },
-    // ================Admin========================
+    //  ====================--Admin----=============================
     {
         path: '/admin',
         element: [
@@ -186,6 +201,10 @@ const AppRouter = createBrowserRouter([
             </AdminAuth>
         ]
 
+    },
+    {
+        path: '*',
+        element: <NotFound />
     }
 
 ])

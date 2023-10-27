@@ -42,13 +42,15 @@ function DoctorRegistration() {
       const responseData = response.data; 
       
       if (responseData.success === true) { 
+        console.log(`this is ${responseData}`);
         toast.success(responseData.message);
         navigate("/doctor-login");
       } else {
         console.log('hiiiiiiiiiiiiiiiiiiiii');
-        toast.error(responseData.message);
+        toast.error(responseData.errors);
       }
     } catch (err) {
+    
       console.error('Error:', err);
       if (err.response) {
         toast.error(err.response.data.message || err.response.data.msg);
@@ -77,7 +79,7 @@ function DoctorRegistration() {
       },
       onSubmit,
       validationSchema:doctorSignUpSchema
-
+  
     }
   )
   return (

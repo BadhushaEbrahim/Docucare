@@ -1,6 +1,7 @@
 import Doctor from "../../model/docterSchema.js"
-// import cloudinary from '../../utilities/cloudinary.js'
+import cloudinary from '../../utilities/cloudinary.js'
 import bcrypt from "bcrypt";
+
 
 export const doctorDetails = async (req, res) => { 
   try {
@@ -16,11 +17,11 @@ export const doctorDetails = async (req, res) => {
 
 export const updateDetails = async (req, res) => {
   try {
+    
     const doctorDetails = await Doctor.findOneAndUpdate(
       { _id: req.params.id },
       {
         fullName: req.body.fullName,
-        email: req.body.email,
         number: req.body.number,
         experience: req.body.experience,
       }
@@ -40,21 +41,44 @@ export const updateDetails = async (req, res) => {
 
 export const updatePassword = async (req, res) => {
   try {
+    console.log(req.body,"lll");
     const password = req.body.newPassword;
+    console.log(password);
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
-      await Doctor.findOneAndUpdate(
+      await Doctor.findByIdAndUpdate(
         { _id: req.params.id },
         {
-          password: hashedPassword,
+          $set:{
+            password: hashedPassword,
+          }
         }
       );
+
       return res
         .status(200)
         .json({ message: "doctor password is updated successfully" });
     }
-  } catch (error) {}
+  } catch (err) {
+    res.status(400).json({ error: err });
+  }
 };
+
+export const updateProfileImage=async(req,res)=>{
+  try {
+    const result=await cloudinary.uploader.upload(req.file.path)
+    const doctor=await Doctor.findByIdAndUpdate(req.params.id,{
+      $set:{
+        profilePic:result.secure_url
+      }
+    });
+    const pic=doctor.profilePic
+    return res.status(200).json({message:"doctor image uploaded successfully",pic})
+  } catch (error) {
+    res.status(400).json({error})
+    throw(error)
+  }
+}
 
 
   

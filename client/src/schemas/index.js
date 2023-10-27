@@ -4,6 +4,8 @@ const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/;
 
 const nameRules = /^[A-Za-z]+$/;
 
+const experienceRules = /^\d+-\d+$/;
+
 export const loginSchema = yup.object().shape({
   email: yup.string()
     .email('Invalid email format')
@@ -39,7 +41,7 @@ export const userSignUpSchema = yup.object().shape({
     .max(new Date(), "Date of birth cannot be in the future"),
 });
 
-export const doctorSignUpSchema = ({
+export const doctorSignUpSchema = yup.object().shape({
   email: yup
     .string()
     .email("Please enter a valid email")
@@ -67,7 +69,6 @@ export const doctorSignUpSchema = ({
     .number()
     .required("MedicalregisterNo is required"),
   experience: yup.string().required("Experience is required"),
-  gender: yup.string().required("Gender is required"),
   specialization: yup.string().required("Specialization is required"),
 });
 
@@ -81,4 +82,46 @@ export const userDetailsUpdateSchema = yup.object().shape({
     .matches(/^[0-9]{10}$/, { message: "Number must be 10 characters" })
     .required("Contact is required"),
   userName: yup.string().required("Name is required"),
+});
+
+export const doctorDetailsUpdateSchema = yup.object().shape({
+    number: yup
+    .string()
+    .matches(/^[0-9]{10}$/, { message: "Number must be 10 characters" })
+    .required("Contact is required"),
+  experience: yup
+    .string()
+    .required("Experience is required")
+    .matches(experienceRules, "Enter a valid experience"),
+  fullName: yup.string().required("Name is required"),
+});
+
+export const changePasswordSchema = yup.object().shape({
+  newPassword: yup
+    .string()
+    .min(5)
+    .matches(passwordRules, { message:"Password must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number"})
+    .required("Required"),
+    confirmNewPassword: yup
+    .string()
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match")
+    .required("Required"),
+});
+
+export const PasswordEmailSchema=yup.object().shape({
+  email:yup
+  .string()
+  .required("Email is required")
+  .email("Please enter a valid email")
+})
+export const ResetPasswordSchema = yup.object().shape({
+  newPassword: yup
+    .string()
+    .min(5)
+    .matches(passwordRules, { message:"Password must be greater than 8 and contain at least one uppercase letter, one lowercase letter, and one number"})
+    .required("Required"),
+    confirmPassword: yup
+    .string()
+    .oneOf([yup.ref("newPassword"), null], "Passwords must match")
+    .required("Required"),
 });

@@ -1,5 +1,9 @@
 import User from "../../model/UserSchema.js";
 import Doctor from "../../model/docterSchema.js";
+import cloudinary from "../../utilities/cloudinary.js";
+import {OAuth2Client} from "google-auth-library"
+import bcrypt from 'bcrypt'
+
 
 export const userDetails = async (req, res) => {
   try {
@@ -7,6 +11,7 @@ export const userDetails = async (req, res) => {
     res
       .status(200)
       .json({ message: "user data sent successfully", userDetails });
+      
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -66,3 +71,85 @@ export const getDoc = async (req, res) => {
   }
 };
 
+export const updateProfileImage=async(req,res)=>{
+  try {
+    const result =await cloudinary.uploader.upload(req.file.path)
+    const user=await User.findByIdAndUpdate(req.params.id,{
+      $set:{
+        profilePic:result.secure_url
+      }
+    });
+    const pic =user.profilePic;
+    return res .status(200) .json({message:"user image updated successfully",pic})
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({error:err})
+  }
+}
+
+export const UserGoogleLoginAuth=async(req,res)=>{
+  const authClient=new OAuth2Client(process.env.CLIENTID)
+  const {idToken}=req.body;
+  if(idToken){
+    authClient.verifyIdToken({idToken,audience:process.env.CLIENTID})
+    .then(response => {
+      console.log(response)
+      const { email_verified,email,name,picture } = response.payload
+      if (email_verified) {
+          User.findOne({ email }).exec((err, user) => {
+              if(user){
+                  return res.json(user)
+              }
+              else{
+                  let password = email + clientId
+                  let newUser = new User({email,name,picture,password});
+                  newUser.save((err,data)=>{
+                      if(err){
+                          return res.status.json({error:"mongodb error"})
+                      }
+                      res.json(data)
+                  })
+              }
+          })
+      }
+  })
+  .catch(err => { console.log(err) })
+  }
+}
+
+// export const availability=async(req,res)=>{
+//   try {
+//     const doctorId=req.body.doctorId
+//     const date=req.body.data
+//     const time=req.body.time;
+//     const userId=req.body.userId
+//     const doctor=await Doctor.findById(doctorId)
+//   } catch (error) {
+    
+//   }
+// }
+
+export const updatePassword = async (req, res) => {
+  try {
+    console.log("came");
+    const password = req.body.newPassword;
+    console.log(password);
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await User.findByIdAndUpdate(
+        { _id: req.params.id },
+        {
+          $set:{
+            password: hashedPassword,
+          }
+          
+        }
+      );
+      return res
+        .status(200)
+        .json({ message: "User password is updated successfully" });
+    }
+  } catch (error) {
+    return res.status(500).json({message:"Server error",error})
+  }
+};

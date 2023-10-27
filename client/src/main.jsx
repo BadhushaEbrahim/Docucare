@@ -8,10 +8,9 @@ import "./index.css";
 import { RouterProvider } from 'react-router-dom'
 import AppRouter from "./routes/AppRouter";
 
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-      <Provider store={store}>
+    <Provider store={store}>
         <RouterProvider router={AppRouter} />
       </Provider>
   </ChakraProvider>

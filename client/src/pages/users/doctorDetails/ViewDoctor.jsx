@@ -38,8 +38,8 @@ function ViewDoctor() {
           <div className="lg:w-1/2 w-full mb-10 lg:mb-0 rounded-lg overflow-hidden shadow-lg">
             <img
               alt="Doctor"
-              className="object-cover object-center h-full w-full"
-              src="https://dummyimage.com/400x400/000/fff"
+              className="object-cover object-center h-30px"
+              src={doctor.profilePic}
             />
           </div>
           <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">

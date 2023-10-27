@@ -10,12 +10,20 @@ export const Update_User_Details='/updateUserDetails'
 export const Verify_UserEmail='/verify-email'
 export const  user_get_doc='/getAllDoc'
 export const  user_get_docDetails='/getDoc'
+export const Update_User_image='/updateUserImage'
+export const UserGoogleAuth='/GoogleAuth'
+export const User_Profile_Password='/updatePassword'
 
 //doctor
 export const DOC_SIGN_UP='/register'
 export const DOC_LOGIN='/login'
 export const Update_Doc_Profile='/updateDetails'
 export const Get_DocDetails='/details'
+export const update_Doc_ProfileImage='/updateDocImage'
+export const update_Doc_profile_password='/updatePassword'
+export const forget_password_verify='/resetpasswordVerify'
+export const forget_password_verification='/resetAcountverification'
+export const resetpassword='/resetpassword'
 
 
 

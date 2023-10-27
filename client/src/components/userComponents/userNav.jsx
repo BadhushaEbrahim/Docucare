@@ -1,11 +1,15 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { setLogout } from '../../redux/userSlice'
 import { useSelector, useDispatch } from "react-redux";
+import {User_Details} from '../../utils/ConstUrls';
+import axios from '../../utils/axios';
+import jwtDecode from 'jwt-decode';
 import Logo from '../../assets/logo.png'
+
 
 const navigation = [
   { name: 'Dashboard', href: '#', current: true },
@@ -19,9 +23,37 @@ function classNames(...classes) {
 }
 
 export default function NavBar() {
+  const token =localStorage.getItem("userToken")
+  const decode=jwtDecode(token)
+  const [UserDetails, setUserDetails] = useState("")
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+
+  const getUserDetails = async () => {
+    await axios
+      .get(`${User_Details}/${decode.id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log(response)
+        setUserDetails(response.data.userDetails);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status===500) {
+          navigate('/error')
+        }
+      });
+  };
+
+
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
 
   const handleLogout = () => {
     swal({
@@ -94,17 +126,17 @@ export default function NavBar() {
 
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative ml-3">
-                  <div>
-                    <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                      <span className="absolute -inset-1.5" />
-                      <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fprofile-avatar&psig=AOvVaw1XXbbH34FXqiHm4LZs2NRf&ust=1694145374608000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCNjnjbzNl4EDFQAAAAAdAAAAABAE"
-                        alt=""
-                      />
-                    </Menu.Button>
-                  </div>
+                <div>
+                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">Open user menu</span>
+                          <img
+                            className="h-8 w-8 rounded-full"
+                          src={UserDetails.profilePic}
+                            alt="profilepic"
+                          />
+                        </Menu.Button>
+                      </div>
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
