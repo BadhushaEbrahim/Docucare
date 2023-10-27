@@ -1,6 +1,6 @@
 # Docucare
 
-<img src="https://res.cloudinary.com/di99qdkb5/image/upload/v1698405584/logos/logo_xhn9wi.png" alt="Docucare Logo" width="200" height="200">
+<img src="https://res.cloudinary.com/di99qdkb5/image/upload/v1698405584/logos/logo_xhn9wi.png" alt="Docucare Logo" width="200">
 
 Docucare is a virtual healthcare application that allows patients to connect with healthcare professionals through real-time chat and video calls. This README provides an overview of the application and its modules.
 
