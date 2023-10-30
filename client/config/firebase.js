@@ -2,14 +2,17 @@
 import { initializeApp} from "firebase/app";
 import {GoogleAuthProvider, getAuth, signInWithPopup} from "firebase/auth"
 
+const apiKey = import.meta.env.VITE_API_KEy
+const messagingSenderId =import.meta.env.VITE_MESSAGE_ID
+const appId =import.meta.env.VITE_APIID
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDDncsKBDLT_xWlDOP9ZFEIRMVVMlKM3Y8",
+  apiKey:apiKey ,
   authDomain: "docucare--login.firebaseapp.com",
   projectId: "docucare--login",
   storageBucket: "docucare--login.appspot.com",
-  messagingSenderId: "55503630117",
-  appId: "1:55503630117:web:b1850953213e8c5a1774cc",
+  messagingSenderId: messagingSenderId,
+  appId: appId,
   measurementId: "G-0Z0TK4QL5E"
 };
 
