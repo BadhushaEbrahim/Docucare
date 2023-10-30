@@ -1,4 +1,4 @@
-import User from "../../model/UserSchema.js";
+import User from "../../model/User.js";
 import Doctor from "../../model/docterSchema.js";
 import cloudinary from "../../utilities/cloudinary.js";
 import {OAuth2Client} from "google-auth-library"
@@ -87,35 +87,6 @@ export const updateProfileImage=async(req,res)=>{
   }
 }
 
-export const UserGoogleLoginAuth=async(req,res)=>{
-  const authClient=new OAuth2Client(process.env.CLIENTID)
-  const {idToken}=req.body;
-  if(idToken){
-    authClient.verifyIdToken({idToken,audience:process.env.CLIENTID})
-    .then(response => {
-      console.log(response)
-      const { email_verified,email,name,picture } = response.payload
-      if (email_verified) {
-          User.findOne({ email }).exec((err, user) => {
-              if(user){
-                  return res.json(user)
-              }
-              else{
-                  let password = email + clientId
-                  let newUser = new User({email,name,picture,password});
-                  newUser.save((err,data)=>{
-                      if(err){
-                          return res.status.json({error:"mongodb error"})
-                      }
-                      res.json(data)
-                  })
-              }
-          })
-      }
-  })
-  .catch(err => { console.log(err) })
-  }
-}
 
 // export const availability=async(req,res)=>{
 //   try {

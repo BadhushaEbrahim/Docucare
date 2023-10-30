@@ -1,7 +1,7 @@
 
 import passport from "passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import Userschema from "../model/UserSchema.js";
+import Userschema from "../model/User.js";
 import DoctorSchema from "../model/docterSchema.js"
 import  dotenv from "dotenv";
 dotenv.config()

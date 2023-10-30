@@ -17,10 +17,12 @@ const EditProfile = () => {
     email: '',
     number: '',
     profilePic: '',
+    password: ''
   });
 
   const [profilePicture, setProfilePicture] = useState(null);
-  const [showPasswordSection, setShowPasswordSection] = useState(false);
+  const [showPasswordSection, setShowPasswordSection] = useState(false)
+  const hasPassword=userDetails.password;
   const [state, setstate] = useState('');
   const token = localStorage.getItem('userToken');
   const decode = jwtDecode(token);
@@ -253,10 +255,12 @@ const EditProfile = () => {
               </button>
             </div>
           </form>
-
-          <div className="mt-4 cursor-pointer text-blue-600">
+         {hasPassword&&(
+            <div className="mt-4 cursor-pointer text-blue-600">
             <span onClick={() => setShowPasswordSection(!showPasswordSection)}>Update Password</span>
           </div>
+         )} 
+        
 
           {showPasswordSection && (
             <div className="mt-4">

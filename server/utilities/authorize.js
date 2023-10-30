@@ -1,4 +1,4 @@
-import User from '../model/UserSchema.js'
+import User from '../model/User.js'
 import jwt from 'jsonwebtoken'
 
 export const isBlocked=(req,res,next)=>{

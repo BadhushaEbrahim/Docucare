@@ -7,3 +7,4 @@ export default {
     tailwindcss('./tailwind.config.js'), // Specify the path to your tailwind.config.js
   ],
 };
+

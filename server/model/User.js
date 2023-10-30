@@ -1,10 +1,10 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import jwt from 'jsonwebtoken'
 
 const UserSchema = mongoose.Schema({
   userName: {
     type: String,
-    required: true
+    required: true,
     },
   email: {
     type: String,
@@ -13,15 +13,12 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   number: {
     type: String,
-    required: true,
   },
   date: {
     type: String,
-    required: true,
   },
   profilePic:{
     type:String,
@@ -36,9 +33,8 @@ const UserSchema = mongoose.Schema({
     default:false,
   },
   verificationToken:{
-    type:String
+    type:String,
   }
-  
 });
 
 UserSchema.methods.generateVerificationToken = function () {

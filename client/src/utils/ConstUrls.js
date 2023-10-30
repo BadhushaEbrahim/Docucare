@@ -11,7 +11,7 @@ export const Verify_UserEmail='/verify-email'
 export const  user_get_doc='/getAllDoc'
 export const  user_get_docDetails='/getDoc'
 export const Update_User_image='/updateUserImage'
-export const UserGoogleAuth='/GoogleAuth'
+export const User_Google_Login='/google-login'
 export const User_Profile_Password='/updatePassword'
 
 //doctor

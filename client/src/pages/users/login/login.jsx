@@ -5,10 +5,8 @@ import { loginSchema } from '../../../schemas';
 import axios from './../../../utils/axios';
 import { User_Login } from '../../../utils/ConstUrls';
 import { toast, Toaster } from 'react-hot-toast';
-import { GoogleLogin } from '@react-oauth/google';
-import { gapi } from 'gapi-script';
-import { useEffect } from 'react';
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import { authWithGoogle } from '../../../../config/firebase';
+import { User_Google_Login } from '../../../utils/ConstUrls';
 
 
 const clientId = import.meta.env.VITE_GoogleClientId;
@@ -60,13 +58,40 @@ export default function Login() {
 
 
 
-  const responseGoogle = (response) => {
-
-  }
+  const handleGoogleAuth = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await authWithGoogle();
+      console.log(user.displayName,'ppp');
+      const userData = {
+        name: user.displayName,
+        email: user.email,
+        emailVerified: user.emailVerified,
+        imageUrl: user.photoURL
+      };
+      console.log(user);
+      console.log(userData);
+      console.log("before responsce posting");
+      const response = await axios.post(User_Google_Login,userData);
+      const data=response.data
+      if(response){
+        localStorage.setItem("userToken",data.userToken)
+        toast.success("Login Successfully")
+        setTimeout(() => {
+          navigate('/')
+        }, 1000);
+      }
+      console.log(response);
+      console.log('after response');
+    } catch (err) {
+      toast.error('Trouble logging in through Google');
+      console.log(err);
+    }
+  };
+  
 
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
       <div className="w-full h-screen flex">
         <div className="grid grid-cols-1 md:grid-cols-2 m-auto max-w-[600px] md:max-w-[800px] lg:max-w-[900px] px-4">
           <div className="w-full h-[300px] md:h-[500px] hidden md:block">
@@ -128,14 +153,20 @@ export default function Login() {
                 Forgot Password?
               </a>
             </p>
-            <GoogleLogin
-              clientId={clientId}
-              buttonText="Sign in with Google"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={'single_host_origin'}
-              className="mt-4 bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 cursor-pointer"
-            />
+            <div className="flex justify-center items-center">
+  <button className="w-full py-2 text-[#666] rounded-md text-center bg-white hover:bg-[#6FA3EF] hover:text-white transition duration-300 focus:outline-none shadow-md hover:shadow-lg" onClick={handleGoogleAuth}>
+    <span className="flex items-center justify-center gap-2">
+      <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="Google logo" />
+      <span className="font-semibold">Sign in with Google</span>
+    </span>
+  </button>
+</div>
+
+
+
+
+
+
             <p className="text-center mt-6">
               Don't have an account?{' '}
               <a onClick={() => navigate('/user-register')} className="text-blue-600 hover:underline cursor-pointer">
@@ -146,7 +177,6 @@ export default function Login() {
         </div>
         <Toaster />
       </div>
-    </GoogleOAuthProvider>
 
   );
 }

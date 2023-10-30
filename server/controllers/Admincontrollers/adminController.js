@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Admin from "../../model/adminSchema.js";
-import User from "../../model/UserSchema.js";
+import User from "../../model/User.js";
 import Doctor from "../../model/docterSchema.js";
 export const adminlogin=async(req,res)=>{
     try {

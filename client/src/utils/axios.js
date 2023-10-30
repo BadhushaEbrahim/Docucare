@@ -4,6 +4,7 @@ import { baseAdminUrl,baseDocUrl,baseUserUrl } from "./ConstUrls";
 const Userinstance=axios.create({
     baseURL:baseUserUrl
 })
+
 const adminInstance = axios.create({
     baseURL: baseAdminUrl,
   });

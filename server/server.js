@@ -8,8 +8,6 @@ import Adminrouter from './routes/adminrouter.js'
 import connectDb from "./config/db.js";
 import passport from "passport";
 
-
-
 const app = express();
 dotenv.config();
 
@@ -17,10 +15,6 @@ app.use(cors({
     origin: '*',
     optionsSuccessStatus: 200
   }));
-  
-  
-  
-
   
 app.use(passport.initialize()); 
 app.use(morgan("dev"));

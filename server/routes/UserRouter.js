@@ -12,7 +12,8 @@ import {
   UserValidateEmail,
   resetPasswordVerification,
   ResetPasswordAccountVerify,
-  resetPassword
+  resetPassword,
+  GoogleAuth
 } from "../controllers/Usercontrollers/userAuthControler.js";
 import {
   userDetails,
@@ -20,8 +21,7 @@ import {
   getAllDoc,
   getDoc,
   updateProfileImage,
-  UserGoogleLoginAuth,
-  updatePassword
+  updatePassword,
 } from "../controllers/Usercontrollers/userControler.js";
 import loginRateLimiter from "./../middlewares/Loginratelimiter.js";
 import {userVerification} from '../middlewares/userVerification.js'
@@ -31,7 +31,6 @@ const router = express.Router();
 router.route("/register").post(UserRegisterValidationRules, RegisterUser);
 router.route("/verify-email/:verificationToken").get(UserValidateEmail);
 router.route("/login").post(UserLoginValidationRules, LoginUser);
-router.route("/GoogleAuth").post(UserGoogleLoginAuth)
 router.route("/getAllDoc").get(getAllDoc);
 router.route("/getDoc/:id").get(getDoc);
 router.route("/availability",)
@@ -40,6 +39,7 @@ router.route('/updatePassword/:id').put(updatePassword)
 router.route('/resetpasswordVerify').post(resetPasswordVerification)
 router.route('/resetAcountverification/:verificationToken').get(ResetPasswordAccountVerify)
 router.route('/resetpassword/:id').put(resetPassword)
+router.route('/google-login').post(GoogleAuth)
 
 // router.route("/regenerate_access_token").post(generateNewAccessToken);
 // router.route('/logout').post(userAuthMiddleware,userLogout);
